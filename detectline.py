@@ -41,19 +41,21 @@ def vidprocess(frame):
 if __name__ == "__main__":
 
 	camera = PiCamera()
+	rawCapture = PiRGBArray(camera)
 
-
+	'''
 	cap = cv2.VideoCapture(0)
 
 	while(True):
 		ret,frame = cap.read()
 		vidprocess(frame)
+	'''
 
-	# for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-	# 	# grab the raw NumPy array representing the image and initialize
-	# 	# the timestamp and occupied/unoccupied text
-	# 	frame = f.array
-	# 	vidprocess(frame)
+	for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+		# grab the raw NumPy array representing the image and initialize
+		# the timestamp and occupied/unoccupied text
+		frame = f.array
+		vidprocess(frame)
 
 
 	cap.release()
