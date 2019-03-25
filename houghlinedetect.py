@@ -35,8 +35,9 @@ def vidprocess(frame):
 
 	lined = thresh
 
-	for x1,y1,x2,y2 in lines[0]:
-    	cv2.line(lined,(x1,y1),(x2,y2),(0,255,0),2)
+	if(lines[0] != None):
+		for x1,y1,x2,y2 in lines[0]:
+			cv2.line(lined,(x1,y1),(x2,y2),(0,255,0),2)
 
 	cv2.imshow("frame",frame)
 	cv2.imshow("blur",blur)
@@ -72,6 +73,6 @@ if __name__ == "__main__":
 		frame = f.array
 		vidprocess(frame)
 		#rawCapture.truncate(0)
-
+	
 	cap.release()
 	cv2.destroyAllWindows()
