@@ -1,4 +1,4 @@
-#detects line 3/5/19
+##detects line 3/5/19
 
 import sys
 import argparse
@@ -14,6 +14,7 @@ import math
 import glob
 
 from picamera import PiCamera
+from picamera.array import PiRGBArray
 
 GTHRESH = 127
 
@@ -51,6 +52,9 @@ def vidprocess(frame):
 	cv2.imshow("thresh",thresh)
 	cv2.imshow("lined",lined)
 
+	cv2.waitKey(1) & 0xFF
+	rawCapture.truncate(0)
+
 	return True
 
 
@@ -58,14 +62,25 @@ def vidprocess(frame):
 if __name__ == "__main__":
 
 	camera = PiCamera()
+	camera.framerate = 32
 	rawCapture = PiRGBArray(camera)
+
+	'''
+	cap = cv2.VideoCapture(0)
+
+	while(True):
+		ret,frame = cap.read()
+		vidprocess(frame)
+	'''
+
+	time.sleep(0.1)
 
 	for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 		# grab the raw NumPy array representing the image and initialize
 		# the timestamp and occupied/unoccupied text
 		frame = f.array
 		vidprocess(frame)
-
+		#rawCapture.truncate(0)
 
 	cap.release()
 	cv2.destroyAllWindows()
