@@ -33,7 +33,7 @@ def vidprocess(frame):
 	thresh = cv2.bitwise_not(thresh)
 
 	edges = cv2.Canny(thresh,100,200)
-
+	edges = cv2.dilate(edges,None,iterations=1)
 	#img, contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
 	#cv2.drawContours(frame, contours, -1, (0,255,0), 3)
@@ -43,35 +43,33 @@ def vidprocess(frame):
 
 
 	if(not lines is None):
-		'''find longest 2 lines'''
-		'''
-		maxline1 = -1
-		maxline2 = -1
-		maxdis1 = -1
-		maxdis2 = -1
+		'''find highest and lowest lines'''
+		maxy = -1
+		maxline = -1
+		miny = 10000
+		minline = -1
 
 		for L in lines:
 			for x1,y1,x2,y2 in L:
-				curdis = dis(x1,y1,x2,y2)
-				if(curdis > maxdis1):
-					maxdis2 = maxdis1
-					maxdis1 = curdis
-					maxline2 = maxline1
-					maxline1 = (x1,y1,x2,y2)
-				elif(curdis > maxdis2):
-					maxdis2 = curdis
-					maxline2 = (x1,y1,x2,y2)
+				if(max(y1,y2) > maxy):
+					maxy = max(y1,y2)	
+					maxline = (x1,y1,x2,y2)
+				if(min(y1,y2) < miny):
+					miny = min(y1,y2)
+					minline = (x1,y1,x2,y2)
 
-		if(maxline1 != -1):
-			cv2.line(frame,(maxline1[0],maxline1[1]),(maxline1[2],maxline1[3]),(0,0,0),4)
-		if(maxline2 != -1):
-			cv2.line(frame,(maxline2[0],maxline2[1]),(maxline2[2],maxline2[3]),(0,0,0),4)
+		if(maxline != -1):
+			cv2.line(frame,(maxline[0],maxline[1]),(maxline[2],maxline[3]),(0,0,0),4)
+		if(minline != -1):
+			cv2.line(frame,(minline[0],minline[1]),(minline[2],minline[3]),(0,0,0),4)
+
+
 		'''
-
+		print(len(lines))
 		for L in lines:
 			for x1,y1,x2,y2 in L:
 				cv2.line(frame,(x1,y1),(x2,y2),(0,0,0),4)
-
+		'''
 
 
 	cv2.imshow("frame",frame)
