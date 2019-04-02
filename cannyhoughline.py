@@ -52,7 +52,7 @@ def vidprocess(frame):
 		for L in lines:
 			for x1,y1,x2,y2 in L:
 				if(max(y1,y2) > maxy):
-					maxy = max(y1,y2)	
+					maxy = max(y1,y2)
 					maxline = (x1,y1,x2,y2)
 				if(min(y1,y2) < miny):
 					miny = min(y1,y2)
@@ -62,6 +62,19 @@ def vidprocess(frame):
 			cv2.line(frame,(maxline[0],maxline[1]),(maxline[2],maxline[3]),(0,0,0),4)
 		if(minline != -1):
 			cv2.line(frame,(minline[0],minline[1]),(minline[2],minline[3]),(0,0,0),4)
+
+
+		#calculates slope and uses that to determine left or right
+
+		#slope based on maxline
+		if(abs(maxline[0]-maxline[2]) < 1):
+			print("GO STRAIGHT")
+		else:
+			slope = (maxline[1]-maxline[3])/(maxline[0]-maxline[2])
+			if(slope < 0):
+				print("GO RIGHT")
+			else:
+				print("GO LEFT")
 
 
 		'''
