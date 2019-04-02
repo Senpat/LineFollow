@@ -17,6 +17,7 @@ from picamera import PiCamera
 from picamera.array import PiRGBArray
 
 GTHRESH = 127
+STRAIGHTTHRESH = 5
 
 def dis(x1,y1,x2,y2):
 	return math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2))
@@ -67,7 +68,7 @@ def vidprocess(frame):
 		#calculates slope and uses that to determine left or right
 
 		#slope based on maxline
-		if(abs(maxline[0]-maxline[2]) < 1):
+		if(abs(maxline[0]-maxline[2]) < STRAIGHTTHRESH):
 			print("GO STRAIGHT")
 		else:
 			slope = (maxline[1]-maxline[3])/(maxline[0]-maxline[2])
