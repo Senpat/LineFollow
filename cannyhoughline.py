@@ -68,6 +68,7 @@ def vidprocess(frame):
 		#calculates slope and uses that to determine left or right
 
 		#slope based on maxline
+		slope = 99999
 		if(abs(maxline[0]-maxline[2]) < STRAIGHTTHRESH):
 			print("GO STRAIGHT")
 		else:
@@ -78,10 +79,10 @@ def vidprocess(frame):
 				print("GO LEFT")
 
 		#calculate angle
-		angle = math.degrees(math.atan(slope))
-		print(angle)
+		if(slope != 99999):
 
-
+			angle = round(abs(math.degrees(math.atan(1/slope))),2)
+			print(str(angle) + u"\u00b0")
 		'''
 		print(len(lines))
 		for L in lines:
@@ -90,10 +91,11 @@ def vidprocess(frame):
 		'''
 
 
+	cv2.imshow("edges",edges)
 	cv2.imshow("frame",frame)
 	#cv2.imshow("blur",blur)
 	#cv2.imshow("thresh",thresh)
-	cv2.imshow("edges",edges)
+	
 
 	cv2.waitKey(1) & 0xFF
 	rawCapture.truncate(0)
