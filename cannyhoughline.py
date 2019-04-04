@@ -77,6 +77,10 @@ def vidprocess(frame):
 			else:
 				print("GO LEFT")
 
+		#calculate angle
+		angle = math.degrees(math.atan(slope))
+		print(angle)
+
 
 		'''
 		print(len(lines))
